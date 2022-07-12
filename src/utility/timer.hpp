@@ -13,9 +13,9 @@ public:
 
 protected:
 	CommonTimer(std::string_view scopeName) : tp_(clock::now()), scopeName_(scopeName) {
-		static_assert(std::chrono::_Is_duration_v<TimeUnityT>,
-					  "Template argument TimeUnityT must be a "
-					  "std::chrono::duration type!");
+		// static_assert(std::chrono::_Is_duration_v<TimeUnityT>,
+		// 			  "Template argument TimeUnityT must be a "
+		// 			  "std::chrono::duration type!");
 	}
 
 	using clock = std::chrono::steady_clock;
@@ -41,8 +41,9 @@ class Timer : public CommonTimer<TimeUnityT> {
 public:
 	Timer(std::string_view scopeName) : CommonTimer<TimeUnityT>(scopeName) {}
 	~Timer() {
-		auto duration = std::chrono::duration_cast<TimeUnityT>(clock::now() - tp_).count();
-		std::clog << scopeName_ << " took: " << std::setw(6) << duration << timeUnityString << '\n';
+		auto duration = std::chrono::duration_cast<TimeUnityT>(
+			Timer::clock::now() - this->tp_).count();
+		std::clog << this->scopeName_ << " took: " << std::setw(6) << duration << this->timeUnityString << '\n';
 	}
 };
 
@@ -52,13 +53,13 @@ public:
 	AccTimer(std::string_view scopeName) : CommonTimer<TimeUnityT>(scopeName) {}
 	~AccTimer() {
 		auto duration = totalDuration_.count();
-		std::clog << scopeName_ << " took: " << std::setw(6) << duration << timeUnityString
+		std::clog << this->scopeName_ << " took: " << std::setw(6) << duration << this->timeUnityString
 				  << " on total\n";
 	}
 
-	void startCount() { tp_ = clock::now(); }
+	void startCount() { this->tp_ = AccTimer::clock::now(); }
 	void accumulateCount() {
-		totalDuration_ += std::chrono::duration_cast<TimeUnityT>(clock::now() - tp_);
+		totalDuration_ += std::chrono::duration_cast<TimeUnityT>(AccTimer::clock::now() - this->tp_);
 	}
 
 private:

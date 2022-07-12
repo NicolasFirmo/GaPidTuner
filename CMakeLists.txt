@@ -7,8 +7,8 @@ if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
 	set(CMAKE_CUDA_ARCHITECTURES 50)
 endif(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
 
-get_filename_component(RootFolderName ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-project(${RootFolderName} LANGUAGES CXX CUDA)
+set(ProjectName GaPidTuner)
+project(${ProjectName} LANGUAGES CXX CUDA)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
@@ -27,18 +27,4 @@ endif(NOT DEFINED BUILD_SHARED_LIBS)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-# Get directories names: https://stackoverflow.com/a/7788165
-file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}/*
-)
-list(REMOVE_ITEM children scripts build .git .vs  .vscode)
-set(subdirs "")
-foreach(child ${children})
-	if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${child})
-		list(APPEND subdirs ${child})
-	endif()
-endforeach()
-
-foreach(subdir ${subdirs})
-	add_subdirectory(${subdir})
-endforeach()
+add_subdirectory(src)

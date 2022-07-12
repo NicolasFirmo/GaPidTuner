@@ -176,7 +176,7 @@ __global__ static void reproduce(Genome *population, const unsigned populationSi
 
 		if (threadIdx.x % 2 == 0) {
 			const unsigned crossOverMidPoint =
-				curand_uniform(localState) * (numberOfBitsIn<Genome::dna_t> - 2UI64) + 1UI64;
+				curand_uniform(localState) * (numberOfBitsIn<Genome::dna_t> - 2) + 1;
 
 			crossOver(sharedParents[threadIdx.x], sharedParents[threadIdx.x + 1],
 					  crossOverMidPoint);

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdio>
 
 #ifdef NDEBUG
 static constexpr bool cudaAssertionOn = false;
@@ -6,16 +7,17 @@ static constexpr bool cudaAssertionOn = false;
 static constexpr bool cudaAssertionOn = true;
 #endif // NDEBUG
 
-constexpr void cudaCall(cudaError_t err) {
+
+void cudaCall(cudaError_t err) {
 	if constexpr (cudaAssertionOn) {
 		if (err != cudaSuccess) {
 			printf("%s at %s:%d: %s\n", cudaGetErrorName(err), __FILE__, __LINE__,
 				   cudaGetErrorString(err));
-			__debugbreak();
+			debugBreak();
 		}
 	}
 }
-constexpr void afterKernelCall() {
+void afterKernelCall() {
 	if constexpr (cudaAssertionOn) {
 		cudaCall(cudaGetLastError());
 		cudaCall(cudaDeviceSynchronize());

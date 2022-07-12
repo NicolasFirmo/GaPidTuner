@@ -15,7 +15,7 @@
 
     1.2. Script
 
-    - Double click the [win_generate.bat](scripts/win_generate.bat) file inside the [scripts](scripts) folder
+    - Double click the [win_generate.bat](scripts/win_generate.bat) file on Windows or run [unix_generate](scripts/unix_generate) on Unix based systems inside the [scripts](scripts) folder
 
 2. Generating the executable
     

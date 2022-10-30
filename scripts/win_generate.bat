@@ -1,6 +1,5 @@
 @echo off
-mkdir ..\build
-pushd ..\build
-call cmake ..
+pushd ..
+call cmake .
 popd
 PAUSE

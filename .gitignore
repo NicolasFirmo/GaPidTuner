@@ -1,6 +1,14 @@
 # Folders
-build
+Debug
+Release
 .vs
 .vscode
+CMakeFiles
 
 # Files
+
+*.proj*
+*.vcxproj*
+CMakeCache.txt
+cmake_install.cmake
+*.sln

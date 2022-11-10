@@ -10,7 +10,7 @@ __device__ static constexpr transform_t transformGene(Genome::dna_t gene,
 	return min + (max - min) * (transform_t(gene) / transform_t(Genome::dnaMax));
 }
 
-template <typename T>
+template<typename T>
 __device__ constexpr T ramp(const T time, const std::decay_t<T> initialTime,
 							const std::decay_t<T> initialValue, const std::decay_t<T> slope) {
 	return (time - initialTime) * slope + initialValue;
@@ -36,7 +36,7 @@ __device__ static constexpr transform_t reference(transform_t time) {
 		return ramp(time, 4.5, 0.5, (1.0 / 0.5) * 4.5);
 }
 
-__device__ Genome::fitness_t fitnessFunction(const Genome &genome, unsigned tId) {
+__device__ Genome::fitness_t fitnessFunction(const Genome& genome, unsigned tId) {
 	transform_t kp = transformGene(genome.genes[0]);
 	transform_t ki = transformGene(genome.genes[1]);
 	transform_t kv = transformGene(genome.genes[2]);
@@ -82,5 +82,5 @@ __device__ Genome::fitness_t fitnessFunction(const Genome &genome, unsigned tId)
 	//	printf("iae = %f\n", iae);
 	// }
 
-	return a1 * e1 + a2 * e2 + a3 * iae + a4 * uDer;
+	return (a1 * e1) + (a2 * e2) + (a3 * iae) + (a4 * uDer);
 }

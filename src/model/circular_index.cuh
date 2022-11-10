@@ -1,5 +1,5 @@
 #pragma once
-template <unsigned MemorySize>
+template<unsigned MemorySize>
 class CircularIndex {
 public:
 	__device__ constexpr unsigned operator[](unsigned index) const {

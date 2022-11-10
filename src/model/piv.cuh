@@ -6,7 +6,7 @@
 
 static constexpr float pi = 3.14159265F;
 
-template <typename T, unsigned MemorySize>
+template<typename T, unsigned MemorySize>
 class PIV {
 public:
 	__device__ PIV(T kp, T ki, T kv) : kp_(kp), ki_(ki), kv_(kv) {}
@@ -18,9 +18,9 @@ public:
 
 		const T proportional = error[i0];
 		const T newIntegral = integral_ + ((error[i0] + error[i1]) / 2) * ts;
-		const T velocity = (quantize(measuredY[i0], 2 * pi, encoderResolution) -
-							quantize(measuredY[i1], 2 * pi, encoderResolution)) /
-						   ts;
+		const T velocity = (quantize(measuredY[i0], 2 * pi, encoderResolution)
+							- quantize(measuredY[i1], 2 * pi, encoderResolution))
+						 / ts;
 		const T u = kp_ * proportional - kv_ * velocity + ki_ * newIntegral;
 		v_[i0] = saturate(u, {-saturationValue, saturationValue});
 

@@ -1,5 +1,4 @@
 #pragma once
-#include <limits>
 
-template <typename T>
-static constexpr unsigned numberOfBitsIn = sizeof(T) * CHAR_BIT;
+template<typename T>
+static constexpr uint32_t numberOfBitsIn = sizeof(T) * CHAR_BIT;

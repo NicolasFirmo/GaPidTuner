@@ -1,5 +1,5 @@
 ---
-Checks: '-*,readability-*,portability-*,performance-*,modernize-*,misc-*,bugprone-*,clang-diagnostic-*,clang-analyzer-*,llvm-*,linuxkernel-*,hicpp-*,cppcoreguidelines-*,google-*,-modernize-use-trailing-return-type,-llvm-header-guard,-bugprone-easily-swappable-parameters,-bugprone-exception-escape,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-init-variables,-clang-diagnostic-microsoft-include,-*-avoid-c-arrays,-*static-accessed-through-instance,-*pointer-arithmetic,-*vararg'
+Checks: '-*,readability-*,portability-*,performance-*,modernize-*,misc-*,bugprone-*,clang-diagnostic-*,clang-analyzer-*,llvm-*,linuxkernel-*,hicpp-*,cppcoreguidelines-*,google-*,-modernize-use-trailing-return-type,-llvm-header-guard,-cppcoreguidelines-init-variables,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-macro-usage'
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false

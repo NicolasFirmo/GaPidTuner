@@ -12,8 +12,8 @@ struct Genome {
 	dna_t genes[numberOfGenes]; // do not change
 	fitness_t fitness;			// do not change
 
-	constexpr bool operator<(const Genome &rhs) const { return fitness < rhs.fitness; }
-	constexpr bool operator>(const Genome &rhs) const { return fitness > rhs.fitness; }
+	constexpr bool operator<(const Genome& rhs) const { return fitness < rhs.fitness; }
+	constexpr bool operator>(const Genome& rhs) const { return fitness > rhs.fitness; }
 };
 
 using transform_t = float;

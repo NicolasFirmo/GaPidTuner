@@ -1,15 +1,14 @@
 #pragma once
 #include <chrono>
+#include <iomanip>
 #include <iostream>
 #include <string_view>
-#include <type_traits>
-#include <iomanip>
 
-template <class TimeUnityT = std::chrono::microseconds>
+template<class TimeUnityT = std::chrono::microseconds>
 class CommonTimer {
 public:
 	using TimeUnityType = TimeUnityT;
-	static const char *timeUnityString;
+	static const char* timeUnityString;
 
 protected:
 	CommonTimer(std::string_view scopeName) : tp_(clock::now()), scopeName_(scopeName) {
@@ -23,43 +22,45 @@ protected:
 	const std::string_view scopeName_;
 };
 
-template <>
-const char *CommonTimer<std::chrono::nanoseconds>::timeUnityString = "ns";
-template <>
-const char *CommonTimer<std::chrono::microseconds>::timeUnityString = "us";
-template <>
-const char *CommonTimer<std::chrono::milliseconds>::timeUnityString = "ms";
-template <>
-const char *CommonTimer<std::chrono::seconds>::timeUnityString = "s";
-template <>
-const char *CommonTimer<std::chrono::minutes>::timeUnityString = "m";
-template <>
-const char *CommonTimer<std::chrono::hours>::timeUnityString = "h";
+template<>
+const char* CommonTimer<std::chrono::nanoseconds>::timeUnityString = "ns";
+template<>
+const char* CommonTimer<std::chrono::microseconds>::timeUnityString = "us";
+template<>
+const char* CommonTimer<std::chrono::milliseconds>::timeUnityString = "ms";
+template<>
+const char* CommonTimer<std::chrono::seconds>::timeUnityString = "s";
+template<>
+const char* CommonTimer<std::chrono::minutes>::timeUnityString = "m";
+template<>
+const char* CommonTimer<std::chrono::hours>::timeUnityString = "h";
 
-template <class TimeUnityT = std::chrono::microseconds>
+template<class TimeUnityT = std::chrono::microseconds>
 class Timer : public CommonTimer<TimeUnityT> {
 public:
 	Timer(std::string_view scopeName) : CommonTimer<TimeUnityT>(scopeName) {}
 	~Timer() {
-		auto duration = std::chrono::duration_cast<TimeUnityT>(
-			Timer::clock::now() - this->tp_).count();
-		std::clog << this->scopeName_ << " took: " << std::setw(6) << duration << this->timeUnityString << '\n';
+		auto duration = std::chrono::duration_cast<TimeUnityT>(Timer::clock::now() - this->tp_)
+							.count();
+		std::clog << this->scopeName_ << " took: " << std::setw(6) << duration
+				  << this->timeUnityString << '\n';
 	}
 };
 
-template <class TimeUnityT = std::chrono::microseconds>
+template<class TimeUnityT = std::chrono::microseconds>
 class AccTimer : public CommonTimer<TimeUnityT> {
 public:
 	AccTimer(std::string_view scopeName) : CommonTimer<TimeUnityT>(scopeName) {}
 	~AccTimer() {
 		auto duration = totalDuration_.count();
-		std::clog << this->scopeName_ << " took: " << std::setw(6) << duration << this->timeUnityString
-				  << " on total\n";
+		std::clog << this->scopeName_ << " took: " << std::setw(6) << duration
+				  << this->timeUnityString << " on total\n";
 	}
 
 	void startCount() { this->tp_ = AccTimer::clock::now(); }
 	void accumulateCount() {
-		totalDuration_ += std::chrono::duration_cast<TimeUnityT>(AccTimer::clock::now() - this->tp_);
+		totalDuration_ += std::chrono::duration_cast<TimeUnityT>(AccTimer::clock::now()
+																 - this->tp_);
 	}
 
 private:

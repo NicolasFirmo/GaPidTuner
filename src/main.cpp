@@ -7,12 +7,12 @@ static transform_t constexpr transformGene(Genome::dna_t gene, const transform_t
 
 static constexpr size_t sampleSize = 10;
 
-template <typename Container>
+template<typename Container>
 requires std::is_same_v<typename Container::value_type, Genome>
-void writeSampleToFile(const Container &sample, Genome::fitness_t totalIAE, size_t populationSize,
-					   std::string_view sampleName, std::ostream &file = std::cout) {
+void writeSampleToFile(const Container& sample, Genome::fitness_t totalIAE, size_t populationSize,
+					   std::string_view sampleName, std::ostream& file = std::cout) {
 	file << '\n' << sampleName << "\n\n";
-	for (auto &genome : sample) {
+	for (auto& genome : sample) {
 		file << "kp = " << transformGene(genome.genes[0]) << '\n';
 		file << "ki = " << transformGene(genome.genes[1]) << '\n';
 		file << "kv = " << transformGene(genome.genes[2]) << '\n';
@@ -58,7 +58,7 @@ int main() {
 
 	const auto totalIAE = std::transform_reduce(
 		std::execution::par_unseq, population.begin(), population.end(), Genome::fitness_t{0},
-		std::plus{}, [](const Genome &genome) { return genome.fitness; });
+		std::plus{}, [](const Genome& genome) { return genome.fitness; });
 
 	std::ofstream populationRank{"population_rank.txt", std::ios_base::trunc};
 

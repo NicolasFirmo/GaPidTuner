@@ -3,4 +3,4 @@
 
 #include <device_launch_parameters.h>
 
-__device__ Genome::fitness_t fitnessFunction(const Genome &genome, unsigned tId);
+__device__ Genome::fitness_t fitnessFunction(const Genome& genome, unsigned tId);

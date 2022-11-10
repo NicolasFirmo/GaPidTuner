@@ -1,12 +1,13 @@
 #pragma once
-#include <cstdio>
+#include <utility/macros.h>
+
+#include <cuda_runtime.h>
 
 #ifdef NDEBUG
 static constexpr bool cudaAssertionOn = false;
 #else
 static constexpr bool cudaAssertionOn = true;
 #endif // NDEBUG
-
 
 void cudaCall(cudaError_t err) {
 	if constexpr (cudaAssertionOn) {

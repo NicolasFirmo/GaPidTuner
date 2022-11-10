@@ -1,6 +1,9 @@
-string(TOLOWER ${ProjectName} ExecutableName)
+string(TOLOWER ${PROJECT_NAME} ExecutableName)
 
-find_package(TBB REQUIRED)
+if(UNIX)
+	find_package(TBB REQUIRED)
+	target_link_libraries(${ExecutableName} TBB::tbb)
+endif()
 
 file(GLOB_RECURSE "${ExecutableName}_sources" RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} CONFIGURE_DEPENDS
 	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
@@ -13,8 +16,9 @@ list(REMOVE_ITEM ${ExecutableName}_sources pch.h)
 message(STATUS "${ExecutableName}_sources: ${${ExecutableName}_sources}")
 
 add_executable(${ExecutableName} ${${ExecutableName}_sources})
-target_link_libraries(${ExecutableName} PRIVATE TBB::tbb)
 target_include_directories(${ExecutableName} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+set_target_properties(${ExecutableName} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
 if(supportsIPO)
 	set_target_properties(${ExecutableName} PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
@@ -39,10 +43,9 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if(CMAKE_CXX_FLAGS MATCHES "/EHsc$")
 		string(REPLACE "/EHsc" "/EHs-c-" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 	endif(CMAKE_CXX_FLAGS MATCHES "/EHsc$")
-endif()
 
-set_target_properties(${ExecutableName} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-
-if(MSVC)
 	set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${ExecutableName})
-endif(MSVC)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "(Clang|GNU)")
+	target_compile_options(${ExecutableName} PRIVATE
+	"$<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra;-Wpedantic;-Wconversion;-fno-rtti;$<$<CONFIG:RELEASE>:-O3;-ffast-math>>")
+endif()

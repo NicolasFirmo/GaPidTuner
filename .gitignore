@@ -6,9 +6,9 @@ Release
 CMakeFiles
 
 # Files
-
 *.proj*
 *.vcxproj*
 CMakeCache.txt
 cmake_install.cmake
 *.sln
+.clangd

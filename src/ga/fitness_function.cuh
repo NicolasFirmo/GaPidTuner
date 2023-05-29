@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ga_core.h"
 
 #include <device_launch_parameters.h>

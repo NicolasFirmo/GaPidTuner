@@ -1,4 +1,5 @@
 #pragma once
+
 #include <utility/macros.h>
 
 #include <cuda_runtime.h>
@@ -9,17 +10,23 @@ static constexpr bool cudaAssertionOn = false;
 static constexpr bool cudaAssertionOn = true;
 #endif // NDEBUG
 
-void cudaCall(cudaError_t err) {
-	if constexpr (cudaAssertionOn) {
-		if (err != cudaSuccess) {
-			printf("%s at %s:%d: %s\n", cudaGetErrorName(err), __FILE__, __LINE__,
-				   cudaGetErrorString(err));
+void cudaCall(cudaError_t err)
+{
+	if constexpr (cudaAssertionOn)
+	{
+		if (err != cudaSuccess)
+		{
+			printf("%s at %s:%d: %s\n", cudaGetErrorName(err), __FILE__, __LINE__, cudaGetErrorString(err));
+
 			debugBreak();
 		}
 	}
 }
-void afterKernelCall() {
-	if constexpr (cudaAssertionOn) {
+
+void afterKernelCall()
+{
+	if constexpr (cudaAssertionOn)
+	{
 		cudaCall(cudaGetLastError());
 		cudaCall(cudaDeviceSynchronize());
 	}
